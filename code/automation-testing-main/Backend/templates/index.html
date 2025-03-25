@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SCU Food Delivery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body, html {
+            height: 100%
+        }
+
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: "Amatic SC", sans-serif
+        }
+
+        .menu {
+            display: none
+        }
+
+        .bgimg {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url("/static/SCU.jpg");
+            min-height: 90%;
+        }
+
+        .meal-btn {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        .meal-btn:hover {
+            background-color: #ddd;
+        }
+
+        /* Style for location image */
+        #locationImage {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* changed from cover to contain */
+        }
+
+        .remove-item {
+            cursor: pointer;
+            color: red;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top w3-hide-small">
+    <div class="w3-bar w3-xlarge w3-black w3-opacity w3-hover-opacity-off" id="myNavbar">
+        <a href="#" class="w3-bar-item w3-button">HOME</a>
+        <a href="#menu" class="w3-bar-item w3-button">MENU</a>
+        <a href="#order" class="w3-bar-item w3-button">ORDER</a>
+        <a href="#track" class="w3-bar-item w3-button">TRACK</a>
+    </div>
+</div>
+
+<!-- Header with image -->
+<header class="bgimg w3-display-container w3-grayscale-min" id="home">
+    <div class="w3-display-bottomleft w3-padding">
+        <span class="w3-tag w3-xlarge">Open from 6am to 12pm</span>
+    </div>
+    <div class="w3-display-middle w3-center" style="transform: translateY(200px);text-align: center;">
+        <p><a href="#menu" class="w3-button w3-xxlarge w3-black"> Benson Food Delivery</a></p>
+    </div>
+</header>
+
+<!-- Menu Container -->
+<div class="w3-container w3-black w3-padding-64 w3-xxlarge" id="menu">
+    <div class="w3-content">
+
+        <h1 class="w3-center w3-jumbo" style="margin-bottom: 64px">THE MENU</h1>
+        <div class="w3-row w3-center w3-border w3-border-dark-grey">
+            <a href="javascript:void(0)" onclick="openMenu(event, 'Breakfast');" id="myLink">
+                <div class="w3-col s4 tablink w3-padding-large w3-hover-red">Breakfast</div>
+            </a>
+            <a href="javascript:void(0)" onclick="openMenu(event, 'Lunch');">
+                <div class="w3-col s4 tablink w3-padding-large w3-hover-red">Lunch</div>
+            </a>
+            <a href="javascript:void(0)" onclick="openMenu(event, 'Dinner');">
+                <div class="w3-col s4 tablink w3-padding-large w3-hover-red">Dinner</div>
+            </a>
+            <a href="javascript:void(0)" onclick="openMenu(event, 'Drinks');">
+                <div class="w3-col s4 tablink w3-padding-large w3-hover-red">Drinks</div>
+            </a>
+        </div>
+
+        <!-- Breakfast Menu -->
+        <div id="Breakfast" class="w3-container menu w3-padding-32 w3-white">
+            {% for item in menu_items if item.category == 'Breakfast' %}
+            <h1><b>{{ item.name }}</b> <span class="w3-right w3-tag w3-dark-grey w3-round">${{ item.price }}</span>
+            </h1>
+            <p class="w3-text-grey"></p>
+            <button type="button" class="meal-btn" data-id="{{ item.id }}" data-name="{{ item.name }}"
+                    data-price="{{ item.price }}">Add to Cart
+            </button>
+            <hr>
+            {% endfor %}
+        </div>
+
+        <!-- Lunch Menu -->
+        <div id="Lunch" class="w3-container menu w3-padding-32 w3-white">
+            {% for item in menu_items if item.category == 'Lunch' %}
+            <h1><b>{{ item.name }}</b> <span class="w3-right w3-tag w3-dark-grey w3-round">${{ item.price }}</span>
+            </h1>
+            <p class="w3-text-grey"></p>
+            <button type="button" class="meal-btn" data-id="{{ item.id }}" data-name="{{ item.name }}"
+                    data-price="{{ item.price }}">Add to Cart
+            </button>
+            <hr>
+            {% endfor %}
+        </div>
+
+        <!-- Dinner Menu -->
+        <div id="Dinner" class="w3-container menu w3-padding-32 w3-white">
+            {% for item in menu_items if item.category == 'Dinner' %}
+            <h1><b>{{ item.name }}</b> <span class="w3-right w3-tag w3-dark-grey w3-round">${{ item.price }}</span>
+            </h1>
+            <p class="w3-text-grey"></p>
+            <button type="button" class="meal-btn" data-id="{{ item.id }}" data-name="{{ item.name }}"
+                    data-price="{{ item.price }}">Add to Cart
+            </button>
+            <hr>
+            {% endfor %}
+        </div>
+
+        <!-- Drinks Menu -->
+        <div id="Drinks" class="w3-container menu w3-padding-32 w3-white">
+            {% for item in menu_items if item.category == 'Drinks' %}
+            <h1><b>{{ item.name }}</b> <span class="w3-right w3-tag w3-dark-grey w3-round">${{ item.price }}</span>
+            </h1>
+            <p class="w3-text-grey"></p>
+            <button type="button" class="meal-btn" data-id="{{ item.id }}" data-name="{{ item.name }}"
+                    data-price="{{ item.price }}">Add to Cart
+            </button>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Order Form Container -->
+<div class="w3-container w3-padding-64 w3-red w3-grayscale w3-xlarge" id="order">
+    <div class="w3-content">
+        <h1 class="w3-center w3-jumbo" style="margin-bottom: 64px">Order Your Meal</h1>
+
+        <p class="w3-center">Select your meal, add to cart, and enter your details to place an order.</p>
+
+        <h2 class="w3-margin-top"><b>Cart</b></h2>
+        <ul id="cartList" class="w3-ul w3-border"></ul>
+        <p><b>Total: $<span id="cartTotal">0.00</span></b></p>
+
+        <h2 class="w3-margin-top"><b>Enter Your Details</b></h2>
+        <form id="detailsForm">
+            <label><b>Location on Campus:</b></label>
+            <select id="location" name="location" class="w3-input w3-border" required>
+                <option value="Lucas Hall">Lucas Hall</option>
+                <option value="scdi">SCDI</option>
+                <option value="Alameda Hall">Alameda Hall</option>
+                <option value="Kenna Hall">Kenna Hall</option>
+                <option value="Finn Residence Hall">Finn Residence Hall</option>
+            </select>
+            <button type="submit" class="w3-button w3-green w3-margin-top">Place Order</button>
+        </form>
+    </div>
+</div>
+
+<!-- Track -->
+<div class="w3-container w3-padding-64 w3-blue-grey w3-grayscale-min w3-xlarge" id="track">
+    <div class="w3-content">
+        <h1 class="w3-center w3-jumbo" style="margin-bottom: 64px">Track Your Order</h1>
+
+        <!-- Estimated Delivery Time -->
+        <p class="w3-xxlarge w3-center">
+            <strong>Estimated Delivery Time:</strong>
+            <span id="deliveryTime" class="w3-tag w3-light-grey">Calculating...</span>
+        </p>
+        <!-- Map Section -->
+        <div id="map" class="w3-border w3-round-large" style="width: 100%; height: 400px; margin-top: 32px;">
+            <img id="locationImage" src="" alt="Location Image" style="width:100%; height:100%; object-fit: contain;">
+        </div>
+        <!-- Order ID Input for Tracking -->
+        <div class="w3-margin-top">
+            <p class="w3-large">Enter your order ID to track your order:</p>
+            <input class="w3-input w3-border w3-padding-16" type="text" id="orderId" placeholder="Order ID" required>
+            <button class="w3-button w3-light-grey w3-margin-top" onclick="trackOrder()">Track Order</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-48 w3-xxlarge">
+    <p>
+        Contact:
+        <a href="mailto:scufooddelivery@scu.edu" target="_blank" class="w3-hover-text-green">scufooddelivery@scu.edu</a>
+        | <a href="tel:+14081234567" class="w3-hover-text-green">+1-408-123-4567</a>
+    </p>
+</footer>
+
+<script>
+    // Tabbed Menu
+    function openMenu(evt, menuName) {
+        var i, x, tablinks;
+        x = document.getElementsByClassName("menu");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < x.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
+        }
+        document.getElementById(menuName).style.display = "block";
+        evt.currentTarget.firstElementChild.className += " w3-red";
+    }
+
+    document.getElementById("myLink").click();
+
+    // Cart Functionality
+    let cart = [];
+    let total = 0;
+
+    function updateCartDisplay() {
+        let cartList = document.getElementById("cartList");
+        let cartTotal = document.getElementById("cartTotal");
+        cartList.innerHTML = "";
+        total = 0;
+
+        cart.forEach((item, index) => {
+            let li = document.createElement("li");
+            li.innerHTML = `${item.name} - $${item.price}
+                            <span class="remove-item" data-index="${index}">&#10006;</span>`; //"&#10006;" is a multiplication symbol that looks like a small x
+            cartList.appendChild(li);
+            total += parseFloat(item.price);
+        });
+
+        cartTotal.textContent = total.toFixed(2);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        document.querySelectorAll('.meal-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const itemId = this.dataset.id;
+                const itemName = this.dataset.name;
+                const itemPrice = this.dataset.price;
+
+                cart.push({id: itemId, name: itemName, price: itemPrice});
+                updateCartDisplay();
+            });
+        });
+
+        document.getElementById("cartList").addEventListener("click", function (event) {
+            if (event.target.classList.contains('remove-item')) {
+                const index = event.target.dataset.index;
+                cart.splice(index, 1);
+                updateCartDisplay();
+            }
+        });
+    });
+
+    document.getElementById("detailsForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const location = document.getElementById("location").value;
+        const cartItems = cart.map(item => item.id);
+
+        fetch('/place_order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cart_items: cartItems, location: location})
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(`Order placed successfully!\nOrder ID: ${data.order_id}\nEstimated Delivery Time: ${data.delivery_time} minutes`);
+                    document.getElementById('deliveryTime').textContent = data.delivery_time + " minutes";
+
+                    // Load location image
+                    fetch('/get_location_image/' + location)
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('locationImage').src = data.image_url;
+                        })
+                        .catch(error => console.error('Error fetching image:', error));
+
+                    // Clear cart
+                    cart = [];
+                    updateCartDisplay();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error placing your order. Please try again.');
+            });
+    });
+
+    function trackOrder() {
+        const orderId = document.getElementById('orderId').value;
+
+        if (!orderId) {
+            alert("Please enter a valid Order ID.");
+            return;
+        }
+
+        // Simulate fetching data for tracking
+        alert("Tracking order: " + orderId);
+
+        // Update Estimated Delivery Time (simulated for demo purposes)
+        const estimatedTime = "25 minutes";
+        document.getElementById('deliveryTime').textContent = estimatedTime;
+
+        // Initialize the map (using Leaflet.js for simplicity)
+        const map = L.map('map').setView([37.3496, -121.9389], 14); // Centered near SCU campus
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Simulated order location (update as needed)
+        const orderLocation = [37.347551, -121.939367];
+        L.marker(orderLocation).addTo(map).bindPopup('Your Order Location').openPopup();
+    }
+</script>
+</body>
+</html>
