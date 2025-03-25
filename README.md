@@ -1,70 +1,97 @@
-# 📌 CI/CD Integration and Testing – DevSecOps
+# 🔐 CI/CD Automation & Security Testing – Online Restaurant Reservation System
 
 ### 👤 Contributor: Ritika Verma  
-*Part of ISBA 2408 – Software Project Management @ Santa Clara University*
+*ISBA 2408 – Software Project Management @ Santa Clara University*
 
 ---
 
 ## 🚀 Project Overview
 
-This project aims to modernize restaurant reservation systems by developing a cloud-based web platform integrated with a CI/CD pipeline. The system is designed to automate software delivery, enhance testing, ensure zero-downtime deployment, and improve scalability and security for small to medium-sized restaurants.
+This project focuses on enhancing restaurant reservation systems by integrating **DevOps practices**—particularly Continuous Integration and Continuous Deployment (CI/CD)—to automate delivery, improve system security, and scale reliably for small to mid-sized restaurants.
 
 ---
 
-## 🔧 My Role: CI/CD Pipeline & Testing
+## 🛠️ My Role: CI/CD Automation & Security Champion
 
-I was responsible for designing and implementing the **GitLab-based CI/CD pipeline** and creating a **robust testing strategy** to ensure continuous quality and secure deployment of the system.
+I was solely responsible for:
 
----
-
-## ⚙️ CI/CD Pipeline Setup (GitLab)
-
-- **Pipeline Stages:** `lint` → `test` → `build` → `deploy`
-- **Tools Used:**  
-  - `PyTest` for backend unit/integration/security testing  
-  - `HTMLHint` and `CSSLint` for frontend linting  
-  - `Docker` for packaging and deployment  
-- **Key Features:**
-  - Automated test execution on each commit
-  - Logging and archiving test results via GitLab artifacts
-  - Conditional deployment only if all tests pass
-  - Resilient configuration using `allow_failure` and `only` conditions
+- **Setting up the entire CI/CD pipeline** from scratch using **GitLab**
+- **Designing and implementing end-to-end automation workflows**
+- **Writing security-focused test cases** to harden the system
+- Embedding **security, quality, and performance** testing into every commit
+- Ensuring only **thoroughly tested and verified code** was deployed to production
 
 ---
 
-## 🧪 Testing Strategy
+## ⚙️ CI/CD Pipeline – Built from the Ground Up
 
-Testing was a central part of my contribution, embedded within the CI/CD workflow.
+Implemented a **multi-stage GitLab pipeline** with the following:
 
-### 🔹 Testing Types:
-- **Unit Testing** – Core modules like login and order processing
-- **Integration Testing** – End-to-end user flows (e.g., login → place order)
-- **Security Testing** – Simulated attacks like SQL Injection and XSS
-- **Performance Testing** – Load handling during peak order times
-- **Compatibility Testing** – Multi-browser and device support
+- **Stages:** `lint` → `test` → `build` → `deploy`
+- **Tools & Technologies:**
+  - `GitLab CI/CD` for pipeline orchestration
+  - `Docker` for containerization and deployment
+  - `PyTest` for test automation
+  - `HTMLHint` and `CSSLint` for frontend code quality
 
-### 🔹 Highlights of Test Cases:
-- **TC_LOGIN_01**: Valid login flow  
-- **TC_INT_ORDER_02**: Input validation on empty order
-- **TC_SEC_01**: SQL injection rejection
-- **TC_PERF_01**: High-concurrency stress testing
+### 🔄 Automation Features:
 
-### 🔹 GitLab Artifacts Generated:
-- `qa_test_results.log`  
-- `security_test_results.log`  
-- `lint_results.txt`
+- Complete automation of **build, test, and deploy** processes
+- **Automated failure notifications** with GitLab artifacts
+- Built-in support for **incremental delivery**, rollback, and traceability
+- Reduced manual work and **eliminated human error risks**
 
 ---
 
-## 📈 Impact of My Work
+## 🧪 Security-First Testing Strategy
 
-- Ensured secure, bug-free, and high-performance deployments
-- Enabled continuous feedback for developers via automated reports
-- Reduced production errors through early defect detection
-- Maintained compliance and traceability through standardized logs
+I authored and implemented **comprehensive test cases** across all layers:
+
+### 🔐 Security Tests:
+
+- **SQL Injection Protection**  
+  - Input sanitization for login fields (e.g., `"' OR '1'='1'--"`)
+- **XSS Defense**
+  - Validated against scripts like `<script>alert('XSS')</script>`
+- **Input Validation**
+  - Tested for excessively long strings and special characters
+- **Authentication Flow**
+  - Ensured secure session handling, error messaging, and no data leakage
+
+### 🧩 Additional Testing Types:
+
+- **Unit & Integration Testing:**  
+  Validated login, order placement, and full user flows
+- **Load Testing:**  
+  Simulated concurrent requests to evaluate stability under pressure
+- **Cross-Browser Compatibility:**  
+  Ensured consistent behavior across Chrome, Safari, Firefox, and mobile devices
 
 ---
 
-## 📝 Final Notes
+## 📄 Key Deliverables I Produced:
 
-My contribution emphasized the **real-world power of automation in DevOps**. By integrating continuous testing and deployment practices, I helped build a system that evolves rapidly, securely, and with minimal downtime—helping restaurant operations stay focused on customer satisfaction.
+- Custom test scripts for PyTest and integration flow
+- GitLab YAML config with artifact retention and conditional deploys
+- QA logs: `qa_test_results.log`, `security_test_results.log`
+- Linting reports: `lint_results.txt`
+- Dockerized application containers for deployment
+
+---
+
+## ✅ Outcome & Impact
+
+Thanks to the CI/CD setup and security testing I implemented:
+
+- The team achieved **zero-downtime deployments**
+- **Critical vulnerabilities were proactively identified and fixed**
+- Developers received **instant feedback** on every push
+- The system became **resilient, scalable, and secure by design**
+
+---
+
+## 📝 Final Thoughts
+
+This project reflects my passion for combining **automation, security, and reliability** in real-world systems. By owning the entire CI/CD and security testing workflow, I ensured our restaurant reservation platform was not just functional—but **secure, maintainable, and production-ready**.
+
+---
